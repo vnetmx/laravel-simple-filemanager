@@ -81,7 +81,7 @@ class FilemanagerController extends Controller
     {
         $data = new Filemanager();
         $data = $data->orderBy('id', 'desc');
-        $data = $data->where('user_id', Auth()->user()->id);
+        $data = $data->where('user_id', auth()->guard('employee')->user()->id);
 
         if ($r->has('q')) {
             $q = $r->get('q');
@@ -334,7 +334,7 @@ class FilemanagerController extends Controller
                 'name'         => $fileName,
                 'ext'          => $extension,
                 'file_size'    => $fileSizeInByte,
-                'user_id'      => Auth()->user()->id,
+                'user_id'      => auth()->guard('employee')->user()->id,
                 'absolute_url' => $this->getAbsoluteUrl($fileName),
                 'created_at'   => $dateTime,
                 'updated_at'   => $dateTime,
@@ -383,7 +383,7 @@ class FilemanagerController extends Controller
     public function postDelete(Request $request)
     {
         $id = $request->input('id');
-        $userId = Auth()->user()->id;
+        $userId = auth()->guard('employee')->user()->id;
 
         $data = DB::table($this->tableName)
             ->where('id', $id)
